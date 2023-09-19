@@ -1,6 +1,8 @@
 {
     "name" : "bare-base",
-    "distro" : {
+    "host-init" : "build.sh",
+    "bin" : "hello",
+      "distro" : {
         "name" : "bare",
         "opts" : {}
     }
