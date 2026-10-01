@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess as sp
 import logging
 import time
@@ -609,6 +610,15 @@ def mountImg(imgPath, mntPath):
             yield mntPath
         finally:
             run_with_retries(pwdlessSudoCmd + ['umount', mntPath])
+    elif shutil.which("fuse2fs") and shutil.which("fusermount"):
+        # No sudo and no libguestfs on this cluster — fall back to fuse2fs,
+        # which mounts ext4 images via FUSE without root. The `fakeroot`
+        # option lets us chown/chmod inside the image as if we were root.
+        run(["fuse2fs", "-o", "fakeroot,rw", str(imgPath), str(mntPath)])
+        try:
+            yield mntPath
+        finally:
+            run_with_retries(["fusermount", "-u", str(mntPath)])
     else:
         # use either firesim-*mount* cmds if available/useable or default to guestmount (slower but reliable)
         fsimMountCmd = '/usr/local/bin/firesim-mount-with-uid-gid'
@@ -722,6 +732,12 @@ def copyImgFiles(img, files, direction):
 
             # remove duplicates but keep order
             dirsToModify = list(dict.fromkeys(dirsToModify))
+
+            # Filter out paths that don't exist yet — copyImgFiles can include
+            # the would-be destination dir of a future cp, but we only need to
+            # relax perms on dirs that actually exist (the cp creates the new
+            # one with the umask of the running process, which is fine).
+            dirsToModify = [d for d in dirsToModify if d.exists()]
 
             for dirPath in dirsToModify:
                 perms = int(oct(os.stat(dirPath).st_mode)[-3:], 8)
