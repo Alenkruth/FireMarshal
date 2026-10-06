@@ -4,7 +4,7 @@ _setup_rootfs() {
   for blk in iceblk vda ; do
     if test -b "/dev/${blk}" ; then
       echo "Mounting /dev/${blk} as root device"
-      mount -o rw "/dev/${blk}" /mnt/root
+      mount -t ext4 -o rw "/dev/${blk}" /mnt/root
       return
     fi
   done
