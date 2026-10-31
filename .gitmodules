@@ -1,21 +1,21 @@
 [submodule "riscv-linux"]
 	path = boards/default/linux
-	url = https://github.com/firesim/linux.git
+	url = git@github.com:firesim/linux.git
 [submodule "opensbi"]
 	path = boards/default/firmware/opensbi
-	url = https://github.com/riscv/opensbi.git
+	url = git@github.com:riscv/opensbi.git
 [submodule "boards/default/distros/br/buildroot"]
 	path = boards/default/distros/br/buildroot
-	url = https://github.com/buildroot/buildroot.git
+	url = git@github.com:buildroot/buildroot.git
 [submodule "wlutil/busybox"]
 	path = wlutil/busybox
-	url = https://github.com/mirror/busybox.git
+	url = git@github.com:mirror/busybox.git
 [submodule "boards/firechip/drivers/icenet-driver"]
 	path = boards/firechip/drivers/icenet-driver
-	url = https://github.com/firesim/icenet-driver.git
+	url = git@github.com:firesim/icenet-driver.git
 [submodule "boards/firechip/drivers/iceblk-driver"]
 	path = boards/firechip/drivers/iceblk-driver
-	url = https://github.com/firesim/iceblk-driver.git
+	url = git@github.com:firesim/iceblk-driver.git
 [submodule "boards/firechip/base-workloads/spec2017"]
 	path = boards/firechip/base-workloads/spec2017
 	url = git@github.com:Alenkruth/spec2017-workload.git
